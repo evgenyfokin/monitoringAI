@@ -63,10 +63,10 @@ function TelegramMock() {
 
   return (
     <AppShell>
-      <div className="p-8 max-w-[1400px]">
+      <div className="p-4 md:p-8 max-w-[1400px]">
         <div className="mb-6">
           <div className="text-xs mono uppercase tracking-widest text-muted-foreground mb-2">/ telegram</div>
-          <h1 className="text-4xl font-bold">Уведомление в месенджере</h1>
+          <h1 className="text-2xl md:text-4xl font-bold">Уведомление в месенджере</h1>
           <p className="text-muted-foreground mt-2 max-w-2xl">
             {hasDemo
               ? `Показано последнее уведомление — Сценарий ${completedScenario}: ${isS1 ? "обработка ошибки" : "превентивное обнаружение"}`
@@ -74,9 +74,9 @@ function TelegramMock() {
           </p>
         </div>
 
-        <div className="grid grid-cols-[420px_1fr] gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-[420px_1fr] gap-8">
           {/* Phone mockup */}
-          <div className="rounded-[40px] border-4 border-border-strong bg-[oklch(0.12_0.01_250)] p-2 shadow-2xl">
+          <div className="rounded-[40px] border-4 border-border-strong bg-[oklch(0.12_0.01_250)] p-2 shadow-2xl mx-auto w-full max-w-[420px] md:max-w-none md:mx-0">
             <div className="rounded-[32px] overflow-hidden bg-[oklch(0.14_0.012_250)]">
               {/* Telegram header */}
               <div className="bg-[oklch(0.22_0.02_240)] px-4 py-3 flex items-center gap-3">

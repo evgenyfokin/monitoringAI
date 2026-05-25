@@ -86,19 +86,19 @@ function DemoPage() {
 
   return (
     <AppShell>
-      <div className="p-8 max-w-[1600px]">
+      <div className="p-4 md:p-8 max-w-[1600px]">
         {/* Header */}
-        <div className="flex items-end justify-between mb-6">
+        <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-6">
           <div>
             <div className="text-xs mono uppercase tracking-widest text-muted-foreground mb-2">/ demo</div>
-            <h1 className="text-4xl font-bold">Демо-сценарий</h1>
-            <p className="text-muted-foreground mt-2">
+            <h1 className="text-2xl md:text-4xl font-bold">Демо-сценарий</h1>
+            <p className="text-muted-foreground mt-2 text-sm md:text-base">
               {isS1
                 ? "Реакция на ошибку: логи → AI-агент → рекомендация → Telegram → инцидент"
                 : "Превентивное обнаружение: аномалия до инцидента → AI-агент → Telegram → предупреждение"}
             </p>
           </div>
-          <div className="flex gap-3">
+          <div className="flex gap-3 shrink-0">
             {isRunning && (
               <button
                 onClick={reset}
@@ -110,10 +110,10 @@ function DemoPage() {
             <button
               onClick={runDemo}
               disabled={isRunning && stage !== "complete"}
-              className="px-6 py-2.5 rounded-lg bg-primary text-primary-foreground text-sm font-semibold flex items-center gap-2 hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="px-5 md:px-6 py-2.5 rounded-lg bg-primary text-primary-foreground text-sm font-semibold flex items-center gap-2 hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               <Play className="w-4 h-4" />
-              {stage === "complete" ? "Запустить снова" : "Запустить сценарий"}
+              {stage === "complete" ? "Снова" : <><span className="hidden sm:inline">Запустить сценарий</span><span className="sm:hidden">Запустить</span></>}
             </button>
           </div>
         </div>
@@ -182,8 +182,8 @@ function DemoPage() {
         </div>
 
         {/* Progress */}
-        <div className="mb-6 rounded-xl border border-border bg-surface/40 p-3.5">
-          <div className="flex items-center gap-1">
+        <div className="mb-6 rounded-xl border border-border bg-surface/40 p-3.5 overflow-x-auto">
+          <div className="flex items-center gap-1 min-w-max sm:min-w-0">
             {steps.map((s, i) => {
               const done = stepDone(s.key);
               const active = stepActive(s.key);
@@ -214,7 +214,7 @@ function DemoPage() {
         </div>
 
         {/* Main 2-column */}
-        <div className="grid grid-cols-[1fr_400px] gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-[1fr_400px] gap-6">
           {/* Left: Log stream */}
           <div className="space-y-4">
             {/* Agent status bar */}

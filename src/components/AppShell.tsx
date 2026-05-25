@@ -1,5 +1,8 @@
 import { Link, useRouterState } from "@tanstack/react-router";
-import { LayoutDashboard, Bell, AlertOctagon, Settings, Activity, Send, Sparkles, Play, X, CheckCircle2 } from "lucide-react";
+import {
+  LayoutDashboard, Bell, AlertOctagon, Settings,
+  Activity, Send, Sparkles, Play, X, CheckCircle2,
+} from "lucide-react";
 import { type ReactNode, useEffect, useState } from "react";
 import { useDemo } from "@/lib/demo-context";
 
@@ -8,8 +11,8 @@ const nav = [
   { to: "/alerts", label: "Алерты", icon: Bell, badge: 47 },
   { to: "/incidents/142", label: "Инциденты", icon: AlertOctagon, badge: 2, badgeTone: "crit" as const },
   { to: "/anomalies", label: "Аномалии", icon: Sparkles },
-  { to: "/telegram", label: "Telegram-бот", icon: Send },
-  { to: "/demo", label: "Демо-сценарий", icon: Play },
+  { to: "/telegram", label: "Telegram", icon: Send },
+  { to: "/demo", label: "Демо", icon: Play },
 ];
 
 const services = [
@@ -31,7 +34,9 @@ export function AppShell({ children }: { children: ReactNode }) {
   const { stage, showToast, dismissToast, completedScenario, service } = useDemo();
   const demoActive = stage !== "idle";
 
-  // Auto-dismiss toast after 8 seconds
+  const isActive = (to: string) =>
+    to === "/" ? path === "/" : path.startsWith(to.split("/").slice(0, 2).join("/"));
+
   useEffect(() => {
     if (!showToast) return;
     const t = setTimeout(dismissToast, 8000);
@@ -39,8 +44,26 @@ export function AppShell({ children }: { children: ReactNode }) {
   }, [showToast, dismissToast]);
 
   return (
-    <div className="min-h-screen flex">
-      <aside className="w-64 shrink-0 border-r border-border bg-surface/40 flex flex-col">
+    <div className="min-h-screen flex flex-col md:flex-row">
+
+      {/* ── Mobile top header ── */}
+      <header className="md:hidden sticky top-0 z-40 flex items-center justify-between px-4 py-3 border-b border-border bg-background/95 backdrop-blur-sm shrink-0">
+        <div className="flex items-center gap-2">
+          <div className="w-7 h-7 rounded-lg bg-primary flex items-center justify-center glow-ok">
+            <Activity className="w-3.5 h-3.5 text-primary-foreground" strokeWidth={2.5} />
+          </div>
+          <span className="font-display font-bold text-[15px]">MonitoringAI</span>
+        </div>
+        {demoActive && (
+          <div className="flex items-center gap-1.5 text-xs text-ok">
+            <span className="w-1.5 h-1.5 rounded-full bg-ok pulse-dot" />
+            Демо активно
+          </div>
+        )}
+      </header>
+
+      {/* ── Desktop sidebar ── */}
+      <aside className="hidden md:flex w-64 shrink-0 border-r border-border bg-surface/40 flex-col">
         <div className="px-5 py-5 border-b border-border flex items-center gap-2.5">
           <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center glow-ok">
             <Activity className="w-4 h-4 text-primary-foreground" strokeWidth={2.5} />
@@ -53,7 +76,7 @@ export function AppShell({ children }: { children: ReactNode }) {
 
         <nav className="p-3 space-y-0.5">
           {nav.map((item) => {
-            const active = item.to === "/" ? path === "/" : path.startsWith(item.to.split("/").slice(0, 2).join("/"));
+            const active = isActive(item.to);
             const Icon = item.icon;
             return (
               <Link
@@ -68,13 +91,9 @@ export function AppShell({ children }: { children: ReactNode }) {
                 <Icon className="w-4 h-4" />
                 <span className="flex-1">{item.label}</span>
                 {item.badge !== undefined && (
-                  <span
-                    className={`text-[10px] px-1.5 py-0.5 rounded mono font-semibold ${
-                      item.badgeTone === "crit"
-                        ? "bg-crit/15 text-crit"
-                        : "bg-surface-2 text-muted-foreground"
-                    }`}
-                  >
+                  <span className={`text-[10px] px-1.5 py-0.5 rounded mono font-semibold ${
+                    item.badgeTone === "crit" ? "bg-crit/15 text-crit" : "bg-surface-2 text-muted-foreground"
+                  }`}>
                     {item.badge}
                   </span>
                 )}
@@ -102,9 +121,40 @@ export function AppShell({ children }: { children: ReactNode }) {
         </div>
       </aside>
 
-      <main className="flex-1 min-w-0">{children}</main>
+      {/* ── Main content ── */}
+      <main className="flex-1 min-w-0 pb-20 md:pb-0">{children}</main>
 
-      {/* Telegram-style toast notification */}
+      {/* ── Mobile bottom navigation ── */}
+      <nav className="md:hidden fixed bottom-0 inset-x-0 z-40 border-t border-border bg-background/95 backdrop-blur-sm">
+        <div className="flex items-stretch">
+          {nav.map((item) => {
+            const active = isActive(item.to);
+            const Icon = item.icon;
+            return (
+              <Link
+                key={item.to}
+                to={item.to}
+                className={`flex-1 flex flex-col items-center justify-center py-2.5 gap-1 relative transition-colors ${
+                  active ? "text-primary" : "text-muted-foreground"
+                }`}
+              >
+                <Icon className="w-5 h-5" />
+                <span className="text-[9px] mono leading-none">{item.label}</span>
+                {item.badgeTone === "crit" && !active && (
+                  <span className="absolute top-1.5 right-2 w-2 h-2 rounded-full bg-crit text-[6px] flex items-center justify-center text-white font-bold">
+                    {item.badge}
+                  </span>
+                )}
+                {item.to === "/demo" && demoActive && (
+                  <span className="absolute top-1.5 right-2 w-1.5 h-1.5 rounded-full bg-ok pulse-dot" />
+                )}
+              </Link>
+            );
+          })}
+        </div>
+      </nav>
+
+      {/* ── Telegram-style toast notification ── */}
       {showToast && completedScenario && (
         <TelegramToast
           scenario={completedScenario}
@@ -117,9 +167,7 @@ export function AppShell({ children }: { children: ReactNode }) {
 }
 
 function TelegramToast({
-  scenario,
-  service,
-  onClose,
+  scenario, service, onClose,
 }: {
   scenario: 1 | 2;
   service: string;
@@ -128,7 +176,6 @@ function TelegramToast({
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
-    // Trigger slide-in on mount
     const t = setTimeout(() => setVisible(true), 30);
     return () => clearTimeout(t);
   }, []);
@@ -137,12 +184,12 @@ function TelegramToast({
 
   return (
     <div
-      className={`fixed bottom-6 right-6 z-50 w-80 rounded-2xl overflow-hidden shadow-2xl border border-white/10 transition-all duration-500 ${
-        visible ? "translate-x-0 opacity-100" : "translate-x-full opacity-0"
-      }`}
+      className={`fixed z-50 rounded-2xl overflow-hidden shadow-2xl border border-white/10 transition-all duration-500
+        bottom-24 left-4 right-4
+        md:bottom-6 md:left-auto md:right-6 md:w-80
+        ${visible ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"}`}
       style={{ background: "oklch(0.20 0.018 250)" }}
     >
-      {/* Header */}
       <div className="flex items-center gap-3 px-4 py-3 border-b border-white/5">
         <div className="w-9 h-9 rounded-full bg-gradient-to-br from-[oklch(0.55_0.18_235)] to-[oklch(0.45_0.20_250)] flex items-center justify-center shrink-0">
           <Send className="w-4 h-4 text-white" />
@@ -159,8 +206,7 @@ function TelegramToast({
         </button>
       </div>
 
-      {/* Body */}
-      <div className="px-4 py-3 space-y-2">
+      <div className="px-4 py-3 space-y-1.5">
         <div className="flex items-center gap-2">
           <span className={`w-2 h-2 rounded-full pulse-dot ${isS1 ? "bg-crit" : "bg-warn"}`} />
           <span className={`text-xs font-bold mono tracking-wider ${isS1 ? "text-crit" : "text-warn"}`}>
@@ -169,18 +215,13 @@ function TelegramToast({
           <span className="ml-auto text-[10px] mono text-muted-foreground">{service}</span>
         </div>
         <div className="text-sm">
-          {isS1
-            ? "DB connection pool exhausted — 3 ошибки за 9 сек"
-            : "Деградация без ошибок — p95 ×3 за 20 мин"}
+          {isS1 ? "DB connection pool exhausted — 3 ошибки за 9 сек" : "Деградация без ошибок — p95 ×3 за 20 мин"}
         </div>
         <div className="text-xs text-muted-foreground">
-          {isS1
-            ? "Яндекс GPT: DB_POOL_SIZE=20, перезапустить сервис"
-            : "Яндекс GPT: действуйте за 60–90 мин до инцидента"}
+          {isS1 ? "Яндекс GPT: DB_POOL_SIZE=20, перезапустить сервис" : "Яндекс GPT: действуйте за 60–90 мин до инцидента"}
         </div>
       </div>
 
-      {/* Actions */}
       <div className="px-4 pb-4 flex gap-2">
         <Link
           to="/telegram"
@@ -198,7 +239,6 @@ function TelegramToast({
         </button>
       </div>
 
-      {/* Progress bar */}
       <div className="h-0.5 bg-white/5">
         <div className="h-full bg-primary/60 toast-progress" />
       </div>

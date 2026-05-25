@@ -38,7 +38,7 @@ const lvlCls: Record<LogLevel, string> = {
 function IncidentDetail() {
   return (
     <AppShell>
-      <div className="p-8 max-w-[1600px]">
+      <div className="p-4 md:p-8 max-w-[1600px]">
         {/* Header */}
         <div className="mb-6">
           <div className="flex items-center gap-2 text-xs mono text-muted-foreground mb-3">
@@ -48,9 +48,9 @@ function IncidentDetail() {
             <ChevronRight className="w-3 h-3" />
             <span className="text-foreground">#142</span>
           </div>
-          <div className="flex items-start justify-between gap-6">
+          <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
             <div>
-              <div className="flex items-center gap-3 mb-2">
+              <div className="flex flex-wrap items-center gap-2 md:gap-3 mb-2">
                 <span className="px-2 py-1 rounded bg-crit/15 text-crit text-[10px] mono uppercase tracking-wider font-semibold flex items-center gap-1.5">
                   <span className="w-1.5 h-1.5 rounded-full bg-crit pulse-dot" /> P0 · Активен
                 </span>
@@ -58,35 +58,36 @@ function IncidentDetail() {
                   начат 14:32 · длительность <span className="text-foreground">04:23</span>
                 </span>
               </div>
-              <h1 className="text-3xl font-bold leading-tight">
+              <h1 className="text-xl md:text-3xl font-bold leading-tight">
                 Инцидент #142 — рост ошибок <span className="mono text-crit">payment-service</span>
               </h1>
             </div>
-            <div className="flex gap-2 shrink-0">
-              <button className="px-4 py-2 rounded-lg bg-ok text-primary-foreground text-sm font-medium hover:opacity-90 flex items-center gap-1.5">
-                <CheckCircle2 className="w-4 h-4" /> Подтвердить
+            <div className="flex flex-wrap gap-2 shrink-0">
+              <button className="px-3 md:px-4 py-2 rounded-lg bg-ok text-primary-foreground text-sm font-medium hover:opacity-90 flex items-center gap-1.5">
+                <CheckCircle2 className="w-4 h-4" /> <span className="hidden sm:inline">Подтвердить</span>
               </button>
-              <button className="px-4 py-2 rounded-lg bg-warn text-primary-foreground text-sm font-medium hover:opacity-90 flex items-center gap-1.5">
-                <ArrowUpRight className="w-4 h-4" /> Эскалировать
+              <button className="px-3 md:px-4 py-2 rounded-lg bg-warn text-primary-foreground text-sm font-medium hover:opacity-90 flex items-center gap-1.5">
+                <ArrowUpRight className="w-4 h-4" /> <span className="hidden sm:inline">Эскалировать</span>
               </button>
-              <button className="px-4 py-2 rounded-lg bg-surface-2 text-foreground text-sm font-medium hover:bg-surface-2/70 border border-border">
+              <button className="px-3 md:px-4 py-2 rounded-lg bg-surface-2 text-foreground text-sm font-medium hover:bg-surface-2/70 border border-border">
                 Закрыть
               </button>
             </div>
           </div>
         </div>
 
-        <div className="grid grid-cols-[1.5fr_1fr] gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-[1.5fr_1fr] gap-6">
           {/* Logs */}
           <div className="rounded-xl border border-border bg-surface/50 overflow-hidden flex flex-col">
             <div className="px-5 py-3.5 border-b border-border flex items-center gap-3">
               <h2 className="font-display font-semibold text-sm">Кластер логов</h2>
               <span className="text-xs text-muted-foreground mono">payment-service</span>
               <div className="ml-auto flex gap-1 p-0.5 rounded-md bg-surface-2 text-xs">
-                <button className="px-3 py-1 rounded bg-primary text-primary-foreground mono">
-                  ★ Релевантные · 47 / 12 384
+                <button className="px-2 md:px-3 py-1 rounded bg-primary text-primary-foreground mono">
+                  <span className="hidden md:inline">★ Релевантные · 47 / 12 384</span>
+                  <span className="md:hidden">★ 47 / 12 384</span>
                 </button>
-                <button className="px-3 py-1 rounded text-muted-foreground mono hover:text-foreground">Все логи</button>
+                <button className="px-2 md:px-3 py-1 rounded text-muted-foreground mono hover:text-foreground">Все</button>
               </div>
             </div>
 

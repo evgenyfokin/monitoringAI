@@ -59,11 +59,11 @@ function AnomalyPage() {
 
   return (
     <AppShell>
-      <div className="p-8 max-w-[1400px]">
+      <div className="p-4 md:p-8 max-w-[1400px]">
         {/* Header */}
         <div className="mb-6">
           <div className="text-xs mono uppercase tracking-widest text-muted-foreground mb-2">/ anomalies</div>
-          <h1 className="text-4xl font-bold">Превентивное обнаружение</h1>
+          <h1 className="text-2xl md:text-4xl font-bold">Превентивное обнаружение</h1>
           <p className="text-muted-foreground mt-2 max-w-2xl">
             AI ловит деградацию по паттернам метрик — до первой ошибки, до жалоб пользователей, до инцидента.
           </p>
@@ -71,7 +71,7 @@ function AnomalyPage() {
 
         {/* Active anomaly banner */}
         {demoS2 ? (
-          <div className="mb-6 rounded-xl border border-warn/30 bg-warn/5 p-5 flex items-start gap-4 glow-warn log-line-appear">
+          <div className="mb-6 rounded-xl border border-warn/30 bg-warn/5 p-4 md:p-5 flex flex-col sm:flex-row sm:items-start gap-3 sm:gap-4 glow-warn log-line-appear">
             <div className="w-10 h-10 rounded-lg bg-warn/15 flex items-center justify-center shrink-0">
               {s2running
                 ? <span className="w-3 h-3 rounded-full bg-warn pulse-dot" />
@@ -87,13 +87,13 @@ function AnomalyPage() {
                 {" "}— p95 растёт с 180ms до 340ms за 13 мин · DB замедлился в 20× · ошибок нет
               </div>
             </div>
-            <div className="flex gap-2 shrink-0">
+            <div className="flex gap-2 shrink-0 mt-1 sm:mt-0">
               <button className="px-3 py-2 rounded-lg bg-warn text-primary-foreground text-sm font-medium">Изучить</button>
               <button className="px-3 py-2 rounded-lg bg-surface-2 border border-border text-sm">Мониторить</button>
             </div>
           </div>
         ) : (
-          <div className="mb-6 rounded-xl border border-warn/30 bg-warn/5 p-5 flex items-start gap-4">
+          <div className="mb-6 rounded-xl border border-warn/30 bg-warn/5 p-4 md:p-5 flex flex-col sm:flex-row sm:items-start gap-3 sm:gap-4">
             <div className="w-10 h-10 rounded-lg bg-warn/15 flex items-center justify-center shrink-0">
               <AlertTriangle className="w-5 h-5 text-warn" />
             </div>
@@ -104,7 +104,7 @@ function AnomalyPage() {
                 <span className="text-warn font-semibold">−18%</span> за последний час. Технических ошибок нет.
               </div>
             </div>
-            <div className="flex gap-2 shrink-0">
+            <div className="flex gap-2 shrink-0 self-start sm:self-auto">
               <button className="px-3 py-2 rounded-lg bg-warn text-primary-foreground text-sm font-medium">Изучить</button>
               <button className="px-3 py-2 rounded-lg bg-surface-2 border border-border text-sm">Игнорировать</button>
             </div>
@@ -112,7 +112,7 @@ function AnomalyPage() {
         )}
 
         {/* KPI row */}
-        <div className="grid grid-cols-4 gap-4 mb-6">
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-6">
           <StatCard icon={Eye} label="Аномалий сегодня" value={demoS2 ? "2" : "1"} sub="−нет ошибок" tone="warn" />
           <StatCard icon={Zap} label="Предотвращено" value={demoS2 ? "1" : "0"} sub="инцидентов этим методом" tone="ok" />
           <StatCard icon={Clock} label="Среднее предупреждение" value="67 мин" sub="до инцидента по истории" tone="accent" />
@@ -120,7 +120,7 @@ function AnomalyPage() {
         </div>
 
         {/* Main grid */}
-        <div className="grid grid-cols-[1.5fr_1fr] gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-[1.5fr_1fr] gap-6">
           {/* Left: signals + chart */}
           <div className="space-y-4">
             {/* Signal cards */}
@@ -131,7 +131,7 @@ function AnomalyPage() {
                   {demoS2 ? service : "checkout-service"} · сейчас
                 </span>
               </div>
-              <div className="grid grid-cols-5 gap-2">
+              <div className="grid grid-cols-3 sm:grid-cols-5 gap-2">
                 {signals.map((s) => (
                   <div
                     key={s.label}

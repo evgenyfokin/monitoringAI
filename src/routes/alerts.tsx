@@ -95,21 +95,21 @@ function AlertsPage() {
 
   return (
     <AppShell>
-      <div className="p-8 max-w-[1500px]">
-        <div className="mb-6 flex items-end justify-between">
+      <div className="p-4 md:p-8 max-w-[1500px]">
+        <div className="mb-6 flex flex-col sm:flex-row sm:items-end gap-4 sm:justify-between">
           <div>
             <div className="text-xs mono uppercase tracking-widest text-muted-foreground mb-2">/ alerts</div>
-            <h1 className="text-4xl font-bold">Лента алертов</h1>
+            <h1 className="text-2xl md:text-4xl font-bold">Лента алертов</h1>
             <p className="text-muted-foreground mt-2">AI-приоритизация и группировка против alert fatigue.</p>
           </div>
-          <div className="flex gap-1 p-1 rounded-lg bg-surface-2 text-sm">
+          <div className="flex gap-1 p-1 rounded-lg bg-surface-2 text-sm self-start sm:self-auto shrink-0">
             <button className="px-3 py-1.5 rounded-md bg-primary text-primary-foreground font-medium">По приоритету</button>
             <button className="px-3 py-1.5 rounded-md text-muted-foreground hover:text-foreground">Хронология</button>
             <button className="px-3 py-1.5 rounded-md text-muted-foreground hover:text-foreground">По сервису</button>
           </div>
         </div>
 
-        <div className="grid grid-cols-[1fr_280px] gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-[1fr_280px] gap-6">
           <div className="space-y-3">
             {sections.map((s) => {
               const st = toneStyles[s.tone];

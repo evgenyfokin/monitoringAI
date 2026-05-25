@@ -62,13 +62,13 @@ function Dashboard() {
 
   return (
     <AppShell>
-      <div className="p-8 max-w-[1400px]">
-        <div className="flex items-end justify-between mb-6">
+      <div className="p-4 md:p-8 max-w-[1400px]">
+        <div className="flex items-end justify-between mb-6 gap-4">
           <div>
             <div className="text-xs mono uppercase tracking-widest text-muted-foreground mb-2">/ dashboard</div>
-            <h1 className="text-4xl font-bold">Обзор</h1>
+            <h1 className="text-2xl md:text-4xl font-bold">Обзор</h1>
           </div>
-          <div className="text-xs mono text-muted-foreground">обновлено {demoActive ? "сейчас" : "3 сек назад"}</div>
+          <div className="text-xs mono text-muted-foreground shrink-0">обновлено {demoActive ? "сейчас" : "3 сек назад"}</div>
         </div>
 
         {/* Demo live banner */}
@@ -92,12 +92,12 @@ function Dashboard() {
         )}
 
         {/* Status banner */}
-        <div className="mb-6 rounded-xl border border-crit/30 bg-crit/5 p-5 flex items-center gap-4 glow-crit">
-          <div className="w-12 h-12 rounded-full bg-crit/15 flex items-center justify-center">
+        <div className="mb-6 rounded-xl border border-crit/30 bg-crit/5 p-4 md:p-5 flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4 glow-crit">
+          <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-crit/15 flex items-center justify-center shrink-0">
             <span className="w-3 h-3 rounded-full bg-crit pulse-dot" />
           </div>
           <div className="flex-1">
-            <div className="font-display text-lg font-semibold">
+            <div className="font-display text-base md:text-lg font-semibold">
               {demoActive
                 ? isS1 ? "3 активных инцидента требуют внимания" : "2 инцидента + 1 аномалия под наблюдением"
                 : "2 активных инцидента требуют внимания"}
@@ -113,14 +113,16 @@ function Dashboard() {
           <Link
             to="/incidents/$id"
             params={{ id: "142" }}
-            className="px-4 py-2 rounded-lg bg-crit text-white text-sm font-medium hover:bg-crit/90 flex items-center gap-2"
+            className="px-4 py-2 rounded-lg bg-crit text-white text-sm font-medium hover:bg-crit/90 flex items-center gap-2 self-start sm:self-auto shrink-0"
           >
-            Открыть инцидент <ArrowRight className="w-4 h-4" />
+            <span className="hidden sm:inline">Открыть инцидент</span>
+            <span className="sm:hidden">Открыть</span>
+            <ArrowRight className="w-4 h-4" />
           </Link>
         </div>
 
         {/* KPI widgets */}
-        <div className="grid grid-cols-3 gap-4 mb-6">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
           <KpiCard
             icon={AlertOctagon}
             iconTone="text-crit bg-crit/10"
@@ -152,9 +154,9 @@ function Dashboard() {
           />
         </div>
 
-        <div className="grid grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
           {/* Events list */}
-          <div className="col-span-2 rounded-xl border border-border bg-surface/50 overflow-hidden">
+          <div className="col-span-1 lg:col-span-2 rounded-xl border border-border bg-surface/50 overflow-hidden">
             <div className="px-5 py-4 border-b border-border flex items-center justify-between">
               <h2 className="font-display font-semibold">Последние события</h2>
               <Link to="/alerts" className="text-xs text-muted-foreground hover:text-foreground flex items-center gap-1">
